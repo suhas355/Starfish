@@ -17,8 +17,8 @@ body {
 }
 .login {
   position: relative;
-  top: 50%;
-  width: 250px;
+  top: 35%;
+  width: 400px;
   display: table;
   margin: -150px auto 0 auto;
   background: #fff;
@@ -59,6 +59,8 @@ body {
   top: 8px;
   font-size: 20px;
 }
+
+
 .input input {
   width: 100%;
   padding: 10px 5px 10px 40px;
