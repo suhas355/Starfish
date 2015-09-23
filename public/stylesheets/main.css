@@ -60,17 +60,23 @@ body {
   font-size: 20px;
 }
 
-.footer{
-  color: #8F9296;
-  font-size: 14px;
-  margin: 0px;
-  text-align: center;
-  font: 14px sans-serif;
+.browse{
   position: absolute;
-  bottom: 4%;
-  right: 45%;
-}
+  bottom: 10%;
+  right: 35%;
 
+}
+.table{
+  position: absolute;
+  right: 30%;
+  top: 20%;
+  height: 60%;
+  min-height: 60%;
+  width: 40%;
+  background: #fff;
+  font-size: 20px;
+
+}
 
 .input input {
   width: 100%;

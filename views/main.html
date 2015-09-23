@@ -1,0 +1,36 @@
+<!DOCTYPE>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title class='main-title'>S.E.A</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+  		<link rel="stylesheet" type="text/css" href="stylesheets/main.css">
+		
+ 		<script type="text/javascript">
+ 			var options = "";
+			for(var i = 1; i<12; i++ ) {
+			    options += "<option value="+i+">i</option>";
+			}
+			$('#sel').html( options );
+	 		function upload(){
+
+	 		}
+ 		</script>
+	</head>
+	<body>
+		<div class="table">
+		</div>
+
+		<div class="browse">
+			<form action="javascript:upload();" method="post">
+				<h3>Select Question: </h3><select id="sel" size="5"></select>
+				<h3>Browse: </h3><input type="file" name="upload">
+  				<input type="submit" name="Upload" >
+			</form>
+		</div>
+
+	</body>
+</html>

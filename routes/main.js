@@ -8,7 +8,7 @@ var router = express.Router();
 router.route('/').get(function(req,res){
 	var sess = req.session;
 	if(sess.username){
-		res.status(200).send('Good');
+		res.sendFile('main.html', { root: path.join(__dirname, '../views') });
 	}else{
 		res.status(500).redirect('/');
 	}
