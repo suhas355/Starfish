@@ -11,6 +11,11 @@ var users = require('./routes/users');
 var main = require('./routes/main');
 var session = require('express-session');
 
+/**********db related infos***/
+
+var db = require('./model/dbconnection');
+db.insertstudentsinfo();
+
 var app = express();
 var http = require('http');
 var server = http.createServer(app);
