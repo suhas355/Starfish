@@ -11,8 +11,7 @@
   		<link rel="stylesheet" type="text/css" href="stylesheets/login.css">
 		<script>
    			function loginProcess() {
-   				console.log('what??');
-			    var purl = "/login/process"; // the script where you handle the form input.
+   				var purl = "/login/process"; // the script where you handle the form input.
 				uname = $('#login').find('input[name="userId"]').val();
 
 			    pass = $('#login').find('input[name="password"]').val();
@@ -30,20 +29,15 @@
 
 	           success: function(data)
 	           {	
-	           	   // alert('moving to main');
-	           		console.log('success received in js');
+	           		alert('Login successful');
 	           		window.location.href = '/main'
 	           		
 	           },
 	           error: function(data)
 	           {
-	           		 console.log('error received in js');
+	           		 alert('Invalid credentials');
 	           		 window.location.href = '/'
 
-	           		//window.location.href = '/'
-
-	           		/*var obj = JSON.parse(data);
-	           		window.location.href = obj.url;*/
 	           }
 	          
          })
@@ -62,7 +56,7 @@
  
 	</head>
 	<body>
-		<form class="login" id="login" method="post">
+		<form class="login" action="javascript:loginProcess();" id="login" method="post">
 			  
 			<fieldset>
 			    
@@ -80,7 +74,7 @@
 			    <span><i class="fa fa-lock"></i></span>
 			</div>
 			    
-			<button type="submit" onclick="javascript:loginProcess();" class="submit"><i class="fa fa-long-arrow-right"></i></button>
+			<input type="submit"  class="submit"><i class="fa fa-long-arrow-right"></i></input>
 			    
 			</fieldset>
 			  

@@ -10,7 +10,7 @@ var process = require('./routes/login');
 var users = require('./routes/users');
 var main = require('./routes/main');
 var session = require('express-session');
-
+var csv = require("fast-csv");
 var mongoose = require('mongoose');
 
 /**********db related infos***/
@@ -18,6 +18,8 @@ var mongoose = require('mongoose');
 var db = require('./model/dbconnection');
 var dbName = 'students';
 var connectionString = 'mongodb://localhost:27017/' + dbName;
+
+
  
 mongoose.connect(connectionString);
 mongoose.connection.on('open', function (ref) {
@@ -85,6 +87,23 @@ function uuidFromBytes(rnd) {
   return rnd.join('-');
 }
 
+var studMap = {};
+function fillStuds(){
+  console.log('Filling student info');
+  csv.fromPath(path.join(__dirname,'./model/csv/students.csv'))
+    .on("data", function(data){
+      studMap[data[0]] = data[1];
+      
+      
+    })
+    .on("end", function(){
+      console.log("Insertion of student info completed successfully...");
+  });
+}
+
+
+fillStuds();
+
 
 
 app.use(session({
@@ -96,6 +115,7 @@ app.use(session({
   saveUninitialized: true/*,
   cookie: { secure: true }*/
 }))
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -127,34 +147,29 @@ app.post('/login/process',function(req,res){
   //console.log('coming here' +req.body.username);
   uname = req.body.username;
   pass = req.body.password;
+  console.log("Login details: "+uname+ " " + pass);
   var sess = req.session;
-  var got = false;
-  db.isUserPresent(uname,pass,function(status){
-    console.log("app: status in process is: "+status);
-
-    if(status==true){
-      //console.log('Correct username'+un +" " +uname);
-      sess.username = uname;
-      console.log("app:valid:"+sess.username);
-      //res.header("Access-Control-Allow-Origin", "*");
-      //res.send({'data': req.body.username+' awesome'});
-      res.sendFile('main.html', { root: path.join(__dirname, './views') });
-          
-
-    }else{
-      sess.username = undefined;
-      //sess.end();
-      console.log('app:destroying session');
-      req.session.destroy();
-      res.redirect('/');
-    }
-
-  });
-  while(got == false){
-    setTimeout(function() {
-    },1000);
+  if(studMap[uname]==undefined || studMap[uname]!=pass){
+    console.log('Not found');
+    sess.username = undefined;
+    res.end('{"success" : "Updated Successfully", "status" : 200}');
+  }else{
+    sess.username = uname;
+    console.log('found!!!');
+    res.end('{"error" : "Invalid credentials", "status" : 200}');
   }
   
+});
+
+app.post('/login',function(req,res){
+  var sess = req.session;
+  console.log('In post req' + sess.username);
+  if(sess.username == undefined){
+    res.redirect('/login');
+  }else{
+    console.log('redirecting to main');
+    res.redirect('/main');
+  }
 });
 
 
