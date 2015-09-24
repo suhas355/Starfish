@@ -33,8 +33,9 @@
 
 	           success: function(data)
 	           {	
-	           		if(data['success'] == undefined)
-	           			window.location.href = '/'
+	           		if(data['success'] == undefined){
+	           			$('.error').fadeIn(400).delay(1000).fadeOut(400);
+	           		}
 	           		else
 	           			window.location.href = '/main';
 	           		/*alert('Login successful ');
@@ -55,9 +56,19 @@
  
 	</head>
 	<body>
+
+		<div class="logo">
+				<span class='letter'>S</span>
+		        <span class='letter'>.</span>
+		        <span class='letter'>E</span>
+		        <span class='letter'>.</span>
+		        <span class='letter'>A</span>
+		        
+		</div>
 		<form class="login" name="login" action="javascript:loginProcess();" id="login" method="post">
 			  
 			<fieldset>
+			
 			    
 			<legend class="legend">Login</legend>
 			    
@@ -76,14 +87,14 @@
 			<!-- <input type="submit"  class="fa-fa" value="&#xf1b0;" > --><!-- <i class="fa fa-long-arrow-right"></i></input> -->
 			<button type="submit" onclick="javascript:buttonClick();" class="submit"><i class="fa fa-long-arrow-right"></i></button>   
 			</fieldset>
-			  
+			
 			<div class="feedback">
 			  	login successful <br />
 			    redirecting...
 			</div>
   
 		</form>
-
+		<div class='error' style='display:none' >Invalid credentials</div>
 		<footer>
 			<p class="footer">Copyright &copy; GS355</p>
 		</footer>
