@@ -11,11 +11,52 @@ var users = require('./routes/users');
 var main = require('./routes/main');
 var session = require('express-session');
 
+var mongoose = require('mongoose');
+
 /**********db related infos***/
 
 var db = require('./model/dbconnection');
-db.insertstudentsinfo();
+var dbName = 'students';
+var connectionString = 'mongodb://localhost:27017/' + dbName;
+ 
+mongoose.connect(connectionString);
+mongoose.connection.on('open', function (ref) {
+    console.log('Connected to mongo server.');
 
+    /*mongoose.connection.db.dropCollection('studentinfos',function(err,res){
+    	console.log('Collection dropped');
+    });
+    mongoose.connection.db.dropCollection('questioninfos',function(err,res){
+    	console.log('Collection dropped');
+    });
+    mongoose.connection.db.dropCollection('scoreinfos',function(err,res){
+    	console.log('Collection dropped');
+    });*/
+    //trying to get collection names
+    mongoose.connection.db.collectionNames(function (err, names) {
+        var hasStud = false;
+        var hasQues = false;
+        var hasScore = false;
+       	for(var coll in names){
+       		if(names[coll]['name'] == 'studentinfos')
+       			hasStud = true;
+       		else if(names[coll]['name'] == 'questioninfos')
+       			hasQues = true;
+       		else if(names[coll]['name'] == 'scoreinfos')
+       			hasScore = true;
+       	}
+       	console.log(hasStud);
+        if(hasStud == false){
+        	db.insertstudentsinfo();
+        }
+        if(hasQues == false){
+        	db.insertquestioninfo();
+        }
+        if(hasScore == false){
+        	db.insertscoreinfo();
+        }
+    });
+})
 var app = express();
 var http = require('http');
 var server = http.createServer(app);

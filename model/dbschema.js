@@ -19,7 +19,7 @@ var scoreSchema = new Schema({
 var scoreInfo = mongoose.model('scoreInfo',scoreSchema);
 
 var questionSchema = new Schema({
-	qno 		: {type:Number, required:true},
+	qno 		: {type:Number, required:true, unique:true},
 	question	: {type:String},
 	maxscore	: {type:Number, default:0}  
 });
