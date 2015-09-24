@@ -71,3 +71,35 @@ exports.insertscoreinfo = function(){
 		});
 
 }
+
+
+exports.isUserPresent = function(userid,passwd,callback){
+	/*dbschema.studentInfo.find({'userid':userid,'password':passwd},
+		function(err,stdinfo){
+			console.log("db:"+stdinfo);
+			console.log("dber:"+err);
+			if(err){
+				callback(false,undefined,undefined);
+			}else{
+				console.log("db:"+stdinfo);
+				callback(true,userid,passwd);				
+			}
+		});*/
+
+	console.log("request: "+userid +" "+passwd);
+
+	var query= dbschema.studentInfo.find().where('userid').equals(userid).where('password').equals(passwd);
+	query.exec(function(err,studInfo){
+		console.log("test: "+studInfo.length);
+		if(err){
+			console.log("wrong login credentials");
+			callback(false);
+		}else if(studInfo.length==1){
+			
+			console.log("login credentials"+studInfo);
+			callback(true);
+		}else{
+			callback(false);		
+		}
+	});
+}

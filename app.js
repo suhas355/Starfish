@@ -110,10 +110,53 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.use('/', routes);
-app.use('/process',process);
+//app.use('/login', routes);
 app.use('/users', users);
 app.use('/main',main);
+
+app.get('/',function(req,res){
+      res.redirect('/login');
+});
+
+app.get('/login',function(req,res){
+  res.sendFile('login.html', { root: path.join(__dirname, './views') });
+});
+
+app.post('/login/process',function(req,res){
+  console.log("handling here in app");
+  //console.log('coming here' +req.body.username);
+  uname = req.body.username;
+  pass = req.body.password;
+  var sess = req.session;
+  var got = false;
+  db.isUserPresent(uname,pass,function(status){
+    console.log("app: status in process is: "+status);
+
+    if(status==true){
+      //console.log('Correct username'+un +" " +uname);
+      sess.username = uname;
+      console.log("app:valid:"+sess.username);
+      //res.header("Access-Control-Allow-Origin", "*");
+      //res.send({'data': req.body.username+' awesome'});
+      res.sendFile('main.html', { root: path.join(__dirname, './views') });
+          
+
+    }else{
+      sess.username = undefined;
+      //sess.end();
+      console.log('app:destroying session');
+      req.session.destroy();
+      res.redirect('/');
+    }
+
+  });
+  while(got == false){
+    setTimeout(function() {
+    },1000);
+  }
+  
+});
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
