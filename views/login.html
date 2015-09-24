@@ -10,6 +10,10 @@
   		<script src="javascripts/login.js"></script> 
   		<link rel="stylesheet" type="text/css" href="stylesheets/login.css">
 		<script>
+			function buttonclick(){
+				document.login.submit();
+			}
+
    			function loginProcess() {
    				var purl = "/login/process"; // the script where you handle the form input.
 				uname = $('#login').find('input[name="userId"]').val();
@@ -29,8 +33,12 @@
 
 	           success: function(data)
 	           {	
-	           		alert('Login successful');
-	           		window.location.href = '/main'
+	           		if(data['success'] == undefined)
+	           			window.location.href = '/'
+	           		else
+	           			window.location.href = '/main';
+	           		/*alert('Login successful ');
+	           		window.location.href = '/main'*/
 	           		
 	           },
 	           error: function(data)
@@ -41,22 +49,13 @@
 	           }
 	          
          })
-			.done(function(data){
-				if(data.access=='success'){
-						console.log('correct output final');
-						window.location.href = '/main';
-				}else{
-						console.log('error final');
-						window.location.href = '/';
-				}
-			});
 
 		}
     </script>
  
 	</head>
 	<body>
-		<form class="login" action="javascript:loginProcess();" id="login" method="post">
+		<form class="login" name="login" action="javascript:loginProcess();" id="login" method="post">
 			  
 			<fieldset>
 			    
@@ -74,8 +73,8 @@
 			    <span><i class="fa fa-lock"></i></span>
 			</div>
 			    
-			<input type="submit"  class="submit"><i class="fa fa-long-arrow-right"></i></input>
-			    
+			<!-- <input type="submit"  class="fa-fa" value="&#xf1b0;" > --><!-- <i class="fa fa-long-arrow-right"></i></input> -->
+			<button type="submit" onclick="javascript:buttonClick();" class="submit"><i class="fa fa-long-arrow-right"></i></button>   
 			</fieldset>
 			  
 			<div class="feedback">

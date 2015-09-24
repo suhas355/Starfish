@@ -138,40 +138,7 @@ app.get('/',function(req,res){
       res.redirect('/login');
 });
 
-/*app.get('/login',function(req,res){
-  res.sendFile('login.html', { root: path.join(__dirname, './views') });
-});*/
 
-/*app.post('/login/process',function(req,res){
-  console.log("handling here in app");
-  //console.log('coming here' +req.body.username);
-  uname = req.body.username;
-  pass = req.body.password;
-  console.log("Login details: "+uname+ " " + pass);
-  var sess = req.session;
-  if(studMap[uname]==undefined || studMap[uname]!=pass){
-    console.log('Not found');
-    sess.username = undefined;
-    res.end('{"error" : "Updated Successfully", "status" : 200}');
-  }else{
-    sess.username = uname;
-    console.log('found!!!');
-    res.end('{"success" : "Updated Successfully", "status" : 200}');
-  }
-  
-});*/
-
-/*app.post('/login',function(req,res){
-  var sess = req.session;
-  console.log('In post req' + sess.username);
-  if(sess.username == undefined){
-    res.redirect('/login');
-  }else{
-    console.log('redirecting to main');
-    res.redirect('/main');
-  }
-});
-*/
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -205,12 +172,6 @@ app.use(function(err, req, res, next) {
   });
 });
 
-
-/*http.createServer(function(req,res){
-	res.writeHead(200,{'Content-Type':'text/plain'});
-	res.end();
-	console.log('Listening');
-}).listen(3000);*/
 
 app.listen(3000,function(){
   

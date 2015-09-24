@@ -15,6 +15,11 @@ body {
   font-family: 'Open Sans', sans-serif;
   font-weight: 200;
 }
+
+.fa-fa {
+  font-family: FontAwesome, 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+}
+
 .login {
   position: relative;
   top: 35%;
