@@ -130,7 +130,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-//app.use('/login', routes);
+app.use('/login', routes);
 app.use('/users', users);
 app.use('/main',main);
 
@@ -138,11 +138,11 @@ app.get('/',function(req,res){
       res.redirect('/login');
 });
 
-app.get('/login',function(req,res){
+/*app.get('/login',function(req,res){
   res.sendFile('login.html', { root: path.join(__dirname, './views') });
-});
+});*/
 
-app.post('/login/process',function(req,res){
+/*app.post('/login/process',function(req,res){
   console.log("handling here in app");
   //console.log('coming here' +req.body.username);
   uname = req.body.username;
@@ -152,16 +152,16 @@ app.post('/login/process',function(req,res){
   if(studMap[uname]==undefined || studMap[uname]!=pass){
     console.log('Not found');
     sess.username = undefined;
-    res.end('{"success" : "Updated Successfully", "status" : 200}');
+    res.end('{"error" : "Updated Successfully", "status" : 200}');
   }else{
     sess.username = uname;
     console.log('found!!!');
-    res.end('{"error" : "Invalid credentials", "status" : 200}');
+    res.end('{"success" : "Updated Successfully", "status" : 200}');
   }
   
-});
+});*/
 
-app.post('/login',function(req,res){
+/*app.post('/login',function(req,res){
   var sess = req.session;
   console.log('In post req' + sess.username);
   if(sess.username == undefined){
@@ -171,7 +171,7 @@ app.post('/login',function(req,res){
     res.redirect('/main');
   }
 });
-
+*/
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

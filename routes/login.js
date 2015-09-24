@@ -28,18 +28,33 @@ exports.fillStuds = function(){
 }
 
 exports.studMap = studMap;
-
+*/
 router.route('/process').post(function(req,res){
 	console.log("handling here");
 	//console.log('coming here' +req.body.username);
 	uname = req.body.username;
 	pass = req.body.password;
 	var sess = req.session;
-	if(studMap[uname]==undefined || studMap[uname] != pass){
-		res.redirect('/login');
-	}else{
-		res.redirect('/main');
-	}
+	db.isUserPresent(uname,pass,function(status){
+		console.log("status in process is: "+status);
+		if(status==true){
+			//console.log('Correct username'+un +" " +uname);
+			sess.username = uname;
+			console.log("valid:"+sess.username);
+			//res.header("Access-Control-Allow-Origin", "*");
+			//res.send({'data': req.body.username+' awesome'});
+			res.end('{"success" : "Updated Successfully", "status" : 200}');
+					
+
+		}else{
+			sess.username = undefined;
+			//sess.end();
+			console.log('destroying session');
+			//req.session.destroy();
+			res.end('{"error" : "Invalid credentials", "status" : 200}');
+		}
+
+	});
 	
 });
 
