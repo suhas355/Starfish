@@ -72,20 +72,70 @@ exports.insertscoreinfo = function(){
 
 }
 
+exports.updateTotal = function(userid){
+	var where = {"userid":userid};
+	dbschema.scoreInfo.find(where,function(err,stud){
+		//console.log('Here ' +stud);
+		if(err){
+			console.log('Error finding student');
+			callback("Error","Find error");
+		}else{
+			var len = stud.length;
+			var total = 0;
+			for(i=0;i<len;i++){
+				total += stud[i]['score'];
+			}
+			console.log('Total Score: '+ total);
+			dbschema.studentInfo.update(where,{'score':total},{upsert:true},
+				function(err,res){
+					if(err){
+						console.log('Error in updating total score');
+						
+					}
+					else{
+						console.log('Updated total score to '+total+ ' of userid ' + userid);
+					}
+				});
+
+		}
+	});
+}
+
+exports.updateScore = function(userid,qno,score,callback){
+	var where = {"userid":userid,"qno":qno};
+	dbschema.scoreInfo.findOne(where,function(err,stud){
+		console.log('Here ' +stud);
+		if(err){
+			console.log('Error finding student');
+			callback("Error","Find error");
+		}else{
+			var sco = stud['score'];
+			console.log('Cur score ' + score + ' db score ' + sco);
+			if(sco < score){
+				dbschema.scoreInfo.update(where,{"score":score},{upsert:true},
+				function(err,result){
+					if(err){
+						console.log('Error in updating score');
+						callback("Error","Update Error");
+					}
+					else{
+						console.log('Updated score to '+score+ ' of userid ' + userid);
+						exports.updateTotal(userid);
+					}
+				});
+			}else{
+				console.log('Update is not required '+ userid + ' qno: '+ qno + ' score ' + score ) ;
+			}
+		}
+
+	});
+		
+	
+}
+
 
 exports.isUserPresent = function(userid,passwd,callback){
-	/*dbschema.studentInfo.find({'userid':userid,'password':passwd},
-		function(err,stdinfo){
-			console.log("db:"+stdinfo);
-			console.log("dber:"+err);
-			if(err){
-				callback(false,undefined,undefined);
-			}else{
-				console.log("db:"+stdinfo);
-				callback(true,userid,passwd);				
-			}
-		});*/
-
+	
 	console.log("request: "+userid +" "+passwd);
 
 	var query= dbschema.studentInfo.find().where('userid').equals(userid).where('password').equals(passwd);

@@ -5,6 +5,10 @@ var path = require('path');
 var multer  = require('multer');
 var done=false;
 
+var db = require('../model/dbconnection');
+var mongoose = require('mongoose');
+
+
 var router = express.Router();
 
 var userid=undefined;
@@ -40,6 +44,13 @@ router.route('/evaluate').post(function(req,res){
       			console.log('exec error: ' + error);
     		}
     		
+    		db.updateScore(userid,qno,stdout,function(err,resp){
+    			if(err){
+    				var data = '{ "res" : "error","score":'+0+'}';
+				    res.contentType('json');
+				    res.json(data);
+    			}
+    		});
    			console.log('Score: ' + stdout);
     		var data = '{ "res" : "sucess","score":'+stdout+'}';
 		    res.contentType('json');
