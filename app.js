@@ -13,6 +13,28 @@ var session = require('express-session');
 var csv = require("fast-csv");
 var mongoose = require('mongoose');
 
+var multer  = require('multer');
+var upload= multer({dest : './uploads'});
+var done=false;
+
+
+var app = express();
+var http = require('http');
+var server = http.createServer(app);
+
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
+
+// uncomment after placing your favicon in /public
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
+
+
 /**********db related infos***/
 
 var db = require('./model/dbconnection');
@@ -59,9 +81,7 @@ mongoose.connection.on('open', function (ref) {
         }
     });
 })
-var app = express();
-var http = require('http');
-var server = http.createServer(app);
+
 
 //session
 
@@ -118,25 +138,60 @@ app.use(session({
 
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/login', routes);
 app.use('/users', users);
 app.use('/main',main);
 
+app.use(function(req,res,next){
+  var userid=req.session.username;
+  var handler=multer({ dest: './uploads/',
+
+   rename: function (fieldname, filename) {
+    console.log("renaming "+filename + " to " +userid+"_"+filename);
+      return userid+"_"+filename;
+    },
+  onFileUploadStart: function (file) {
+    console.log(file.originalname + ' is starting ...')
+  },
+  onFileUploadComplete: function (file) {
+    console.log(file.fieldname + ' uploaded to  ' + file.path)
+    done=true;
+  }
+  });
+  handler(req,res,next);
+});
+
 app.get('/',function(req,res){
       res.redirect('/login');
 });
+
+
+
+/*Handling routes.*/
+
+app.post('/upload',function(req,res){
+  userid=req.session.username;
+  console.log("upload session id: "+ userid);
+  console.log("req data: "+req.body);
+  upload(req,res,function(err){
+      if(err){
+         console.log("no file uploaded");
+         var data = '{ "res" : "error"}';
+         res.contentType('json');
+        res.json(data);
+      }else{
+        console.log("req files:"+req.files);
+       var data = '{ "res" : "sucess"}';
+       res.contentType('json');
+       res.json(data);
+      }
+  });
+  
+ });
+
 
 
 
