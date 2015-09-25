@@ -41,7 +41,7 @@ router.route('/evaluate').post(function(req,res){
     		}
     		
    			console.log('Score: ' + stdout);
-    		var data = '{ "res" : "sucess"}';
+    		var data = '{ "res" : "sucess","score":'+stdout+'}';
 		    res.contentType('json');
 		    res.json(data);
     		
