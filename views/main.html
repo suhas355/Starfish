@@ -9,28 +9,108 @@
 
   		<link rel="stylesheet" type="text/css" href="stylesheets/main.css">
 		
- 		<script type="text/javascript">
- 			var options = "";
-			for(var i = 1; i<12; i++ ) {
-			    options += "<option value="+i+">i</option>";
-			}
-			$('#sel').html( options );
-	 		function upload(){
-
-	 		}
- 		</script>
+ 		
 	</head>
 	<body>
-		<div class="table">
+		<div id='formholder' name='formholder'> 
+		<table id='scoretable'>
+		<thead>
+			<th><span><b>Question NO</b></span></th>
+				<th><span><b>Upload</b></span></th>
+				<th><span><b>Max Score</b></span></th>
+				<th><span><b>% Passed</b></span></th>
+		</thead>
+		<tr>
+			<td><span class="qno">Q1</span></td>
+			<td><input type="file" id="file1" name="uploadfile">
+			<button type="button" class="uploadbutton" id="button1">upload</button> </td>
+			<td><b>10</b></td>
+			<td class="result"><b>0</b></td>
+		</tr>
+		<tr>
+			<td><span class="qno">Q2</span></td>
+			<td><input type="file" id="file2" name="uploadfile">
+			<button type="button" class="uploadbutton" id="button2">upload</button> </td>
+			<td><b>10</b></td>
+			<td class="result"><b>0</b></td>
+		</tr>
+		<tr>
+			<td><span class="qno">Q3</span></td>
+			<td><input type="file" id="file3" name="uploadfile">
+			<button type="button" class="uploadbutton" id="button3">upload</button> </td>
+			<td><b>10</b></td>
+			<td class="result"><b>0</b></td>
+		</tr>
+		<tr>
+			<td><span class="qno">Q4</span></td>
+			<td><input type="file" id="file4" name="uploadfile">
+			<button type="button" class="uploadbutton" id="button4">upload</button> </td>
+			<td><b>15</b></td>
+			<td class="result"><b>0</b></td>
+		</tr>
+		<tr>
+			<td><span class="qno">Q5</span></td>
+			<td><input type="file" id="file5" name="uploadfile">
+			<button type="button" class="uploadbutton" id="button5">upload</button> </td>
+			<td><b>15</b></td>
+			<td class="result"><b>0</b></td>
+		</tr>
+		<tr>
+			<td><span class="qno">Q6</span></td>
+			<td><input type="file" id="file6" name="uploadfile">
+			<button type="button" class="uploadbutton" id="button6">upload</button> </td>
+			<td><b>15</b></td>
+			<td class="result"><b>0</b></td>
+		</tr>
+		<tr>
+			<td><span class="qno">Q7</span></td>
+			<td><input type="file" id="file7" name="uploadfile">
+			<button type="button" class="uploadbutton" id="button7">upload</button> </td>
+			<td><b>15</b></td>
+			<td class="result"><b>0</b></td>
+		</tr>
+		<tr>
+			<td><span class="qno">Q8</span></td>
+			<td><input type="file" id="file8" name="uploadfile">
+			<button type="button" class="uploadbutton" id="button8">upload</button> </td>
+			<td><b>20</b></td>
+			<td class="result"><b>0</b></td>
+		</tr>
+		<tr>
+			<td><span class="qno">Q9</span></td>
+			<td><input type="file" id="file9" name="uploadfile">
+			<button type="button" class="uploadbutton" id="button9">upload</button> </td>
+			<td><b>20</b></td>
+			<td class="result"><b>0</b></td>
+		</tr>
+		<tr>
+			<td><span class="qno">Q10</span></td>
+			<td><input type="file" id="file10" name="uploadfile">
+			<button type="button" class="uploadbutton" id="button10">upload</button> </td>
+			<td><b>20</b></td>
+			<td class="result"><b>0</b></td>
+		</tr>
+		<tr>
+			<td><span class="qno">Q11</span></td>
+			<td><input type="file" id="file11" name="uploadfile">
+			<button type="button" class="uploadbutton" id="button11">upload</button> </td>
+			<td><b>20</b></td>
+			<td class="result"><b>0</b></td>
+		</tr>
+		<tr>
+			<td><span class="qno">Q12</span></td>
+			<td><input type="file" id="file12" name="uploadfile">
+			<button type="button" class="uploadbutton" id="button1">upload</button> </td>
+			<td><b>50</b></td>
+			<td class="result"><b>0</b></td>
+		</tr>	
+		</table>	
+		
 		</div>
-
-		<div class="browse">
-			<form action="javascript:upload();" method="post">
-				<h3>Select Question: </h3><select id="sel" size="5"></select>
-				<h3>Browse: </h3><input type="file" name="upload">
-  				<input type="submit" name="Upload" >
-			</form>
-		</div>
-
 	</body>
+	<script>
+
+					
+
+		</script>
 </html>
