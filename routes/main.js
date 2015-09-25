@@ -21,38 +21,33 @@ router.route('/').get(function(req,res){
 	}
   	
 });
-/*
-router.use(multer({ dest: '../uploads/',
- rename: function (fieldname, filename) {
- 	console.log("renaming "+filename + " to " +username+"_"+filename);
-    return username+"_"+filename;
-  },
-onFileUploadStart: function (file) {
-  console.log(file.originalname + ' is starting ...')
-},
-onFileUploadComplete: function (file) {
-  console.log(file.fieldname + ' uploaded to  ' + file.path)
-  done=true;
-}
-}));
 
-/*Handling routes.*/
-
-/*router.route('/upload').post(function(req,res){
-	userid=req.session.username;
-	console.log("session id: "+ userid);
-  if(done==true){
-    console.log(req.files);
-    var data = '{ "res" : "sucess"}';
-    res.contentType('json');
-    res.json(data);
-   
-  }else{
-    console.log("no file uploaded");
-      res.send("error");
-  }
-
-});*/
+router.route('/evaluate').post(function(req,res){
+	var sess = req.session;
+	userid=sess.username;
+	qno=req.body.qno;
+	fname = req.body.fname;
+	var exec = require('child_process').exec,child;
+	console.log("evaluator: qno- " + qno + " fname- " + fname + "userid - " + userid);
+	//TODO: Modify this to run based on script name
+	var execpath = path.join(__dirname,'./data/q'+qno+'eval.sh ' + './uploads/'+userid+'_'+fname + ' ' + userid);
+	child = exec(execpath ,
+	  function (error, stdout, stderr) {
+	  		if(stderr !=null){
+	  			console.log('Std error :: ' + stderr);
+	  		}
+    		if (error !== null) {
+      			console.log('exec error: ' + error);
+    		}
+    		
+   			console.log('Score: ' + stdout);
+    		var data = '{ "res" : "sucess"}';
+		    res.contentType('json');
+		    res.json(data);
+    		
+    		
+	  });
+});
 
 exports.userid = userid;
 module.exports = router;
