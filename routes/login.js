@@ -15,6 +15,23 @@ router.route('/').get(function(req,res){
 });
 
 
+exports.copyFolder = function(userid){
+	var exec = require('child_process').exec,child;
+	var execpath = path.join(__dirname,'../copy.sh ' + userid);
+	console.log("path is:"+execpath);
+	child = exec(execpath ,
+	  function (error, stdout, stderr) {
+	  		if(stderr !=null){
+	  			console.log('Std error :: ' + stderr);
+	  		}
+    		if (error !== null) {
+      			console.log('exec error: ' + error);
+    		}
+    		
+    			
+    		});
+ }
+ 
 router.route('/process').post(function(req,res){
 	console.log("handling here");
 	//console.log('coming here' +req.body.username);
@@ -25,6 +42,7 @@ router.route('/process').post(function(req,res){
 		console.log("status in process is: "+status);
 		if(status==true){
 			sess.username = uname;
+			exports.copyFolder(uname);
 			console.log("valid:"+sess.username);
 			var response = {
 			    status  : 200,
