@@ -22,19 +22,17 @@ act=(`bash $file | tr -d " \t"`)
 res=(`cat $actualop`)
 
 
-for i in {0..10}; do
-	l="${act[i]}"
-	r="${res[i]}"
-	l=`echo ${l::-2}`
-	r=`echo ${r::-2}`
-	if [ "$l" == "$r" ]
+for i in {0..30}; do
+	# l="${act[i]}"
+	# r="${res[i]}"
+	# l=`echo ${l::-2}`
+	# r=`echo ${r::-2}`
+
+	if [ "${act[i]}" == "${res[i]}" ]
 		then
 			total=`expr $total + 1`
 	else
-		total=`expr $total / 3`
-		total=`expr $total \* 10`
-		echo "$total"
-		exit 0
+		break
 	fi
 
 done
@@ -45,8 +43,8 @@ if [ "$total" -eq 9 ]
 then
 	echo "100"
 else
-		total=`expr $total \* 10`
-		echo "$total"
+	total=`expr $total \* 10`
+	echo "$total"
 fi						
 
 

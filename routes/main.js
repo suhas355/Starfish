@@ -57,6 +57,9 @@ router.route('/evaluate').post(function(req,res){
 	    			}
 	    		});
 	   			console.log('Score: ' + stdout);
+	   			if(stdout == ''){
+	   				stdout=0;
+	   			}
 	    		var data = '{ "res" : "sucess","score":'+stdout+'}';
 			    res.contentType('json');
 			    res.json(data);
