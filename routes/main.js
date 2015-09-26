@@ -34,7 +34,8 @@ router.route('/evaluate').post(function(req,res){
 	var exec = require('child_process').exec,child;
 	console.log("evaluator: qno- " + qno + " fname- " + fname + "userid - " + userid);
 	//TODO: Modify this to run based on script name
-	var execpath = path.join(__dirname,'./data/q'+qno+'eval.sh ' + './uploads/'+userid+'/'+userid+'_'+fname + ' ' + userid);
+	var execpath = path.join(__dirname,'../testcases/'+qno+'/q'+qno+'eval.sh ' + './uploads/'+userid+'/'+userid+'_'+fname + ' ' + userid);
+	console.log("path is:"+execpath);
 	child = exec(execpath ,
 	  function (error, stdout, stderr) {
 	  		if(stderr !=null){

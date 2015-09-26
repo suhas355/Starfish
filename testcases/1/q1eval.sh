@@ -1,6 +1,6 @@
 #!/bin/bash
 
-std1='./routes/data/1.op'
+std1='./testcases/1/1.op'
 
 
 file=$1
