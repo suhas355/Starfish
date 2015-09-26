@@ -37,26 +37,30 @@ router.route('/evaluate').post(function(req,res){
 	var execpath = path.join(__dirname,'../uploads/'+userid+'/'+qno+'/q'+qno+'eval.sh ' + './uploads/'+userid+'/'+userid+'_'+fname + ' ' + userid);
 	console.log("path is:"+execpath);
 	child = exec(execpath ,
+		{timeout:5000},
 	  function (error, stdout, stderr) {
 	  		if(stderr !=null){
 	  			console.log('Std error :: ' + stderr);
 	  		}
     		if (error !== null) {
       			console.log('exec error: ' + error);
+      			var data = '{ "res" : "error","score":"TLE"}';
+				res.contentType('json');
+				res.json(data);
+    		}else{
+    		
+	    		db.updateScore(userid,qno,stdout,function(err,resp){
+	    			if(err){
+	    				var data = '{ "res" : "error","score":'+0+'}';
+					    res.contentType('json');
+					    res.json(data);
+	    			}
+	    		});
+	   			console.log('Score: ' + stdout);
+	    		var data = '{ "res" : "sucess","score":'+stdout+'}';
+			    res.contentType('json');
+			    res.json(data);
     		}
-    		
-    		db.updateScore(userid,qno,stdout,function(err,resp){
-    			if(err){
-    				var data = '{ "res" : "error","score":'+0+'}';
-				    res.contentType('json');
-				    res.json(data);
-    			}
-    		});
-   			console.log('Score: ' + stdout);
-    		var data = '{ "res" : "sucess","score":'+stdout+'}';
-		    res.contentType('json');
-		    res.json(data);
-    		
     		
 	  });
 });
