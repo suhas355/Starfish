@@ -147,7 +147,7 @@ app.use('/main',main);
 
 app.use(function(req,res,next){
   var userid=req.session.username;
-  var handler=multer({ dest: './uploads/',
+  var handler=multer({ dest: './uploads/'+userid+'/',
 
    rename: function (fieldname, filename) {
     console.log("renaming "+filename + " to " +userid+"_"+filename);
