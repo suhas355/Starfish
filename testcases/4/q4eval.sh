@@ -17,12 +17,12 @@ fi
 
 #Hack case
 
-# res=`cat $file | egrep ".*cp -r.*"`
+res=`cat $file | egrep ".*cp -r.*"`
 
-# if [ $? -eq 0 ];then
-# 	echo "0"
-# 	exit 0
-# fi
+if [ $? -eq 0 ];then
+	echo "0"
+	exit 0
+fi
 
 chmod +x $file 1> /dev/null 2> /dev/null
 
