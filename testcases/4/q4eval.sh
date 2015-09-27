@@ -72,7 +72,7 @@ actual=`echo "$actual" |tr -d " \t\n\r"`
 #echo $actual
 #echo $expected
 if [ "$actual" == "$expected" ]; then
-	score=`expr $score + 50`
+	score=`expr $score + 40`
 fi
 
 echo $score
