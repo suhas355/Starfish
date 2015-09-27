@@ -18,14 +18,15 @@ chmod +x $file 1> /dev/null 2> /dev/null
 #preprocessing
 
 path="./uploads"
-rollno=$1
-src="./testcases/5/."
+src="./testcases/5/dir/."
 
-rm  -rf "${path}/${rollno}/5/" && mkdir "${path}/${rollno}/5/" 
+rm  -rf "./uploads/${rollno}/5/dir" && mkdir "./uploads/${rollno}/5/dir" 
 
-cp -r "$src" "${path}/${rollno}/5/"
+cp -r "$src" "./uploads/${rollno}/5/dir"
 
 ########################
+
+src="./uploads/$rollno/5/dir"
 score=0
 
 #test 1
@@ -65,6 +66,3 @@ if [ "$actual" == "$expected" ]; then
 fi
 
 echo $score
-
-
-
