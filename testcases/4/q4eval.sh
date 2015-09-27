@@ -47,6 +47,15 @@ if [ "$actual" == "Error: Invalid input!" ];then
 	score=`expr $score + 10`
 fi
 
+#test3
+chmod 000 $src > /dev/null 2> /dev/null
+actual=`bash $file $src $dest 2> /dev/null`
+if [ "$actual" == "Error: Access denied!" ];then
+	score=`expr $score + 10`
+fi
+chmod 775 $src >/dev/null 2> /dev/null
+
+
 #test4
 actual=`bash $file $src $dest 2> /dev/null`
 if [ "$actual" == "" ];then

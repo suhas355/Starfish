@@ -15,7 +15,7 @@ fi
 
 #Hack case
 
-res=`cat $file | egrep -e "5" -e "121" -e "875" -e "539" `
+res=`cat $file | egrep -e "121" -e "875" -e "539" `
 
 if [ $? -eq 0 ];then
 	#mongo localhost/students --eval "db.scoreinfos.update({userid:\"$rollno\",qno:1},{\$set:{score:0}})"
