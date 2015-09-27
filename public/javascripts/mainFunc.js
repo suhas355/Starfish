@@ -1,3 +1,21 @@
+function getTotalScore(){
+	var turl="/main/gettotal";
+	$.ajax({
+		type:"POST",
+		url: turl,
+		success: function(data)
+		{
+			var obj= JSON.parse(data);
+			document.getElementById('totalresult').innerHTML=obj.score;
+
+		},
+		error: function(data)
+		{
+
+		}
+	});
+}
+
 function calculate(value,filename){
   			var content = {
   				"qno":value,
@@ -17,6 +35,7 @@ function calculate(value,filename){
 	           		var obj= JSON.parse(data);
 		            document.getElementById('status'+value).innerHTML = '<b style="color:green;">executed</b>';
 	           		document.getElementById('res'+value).innerHTML = '<b >'+obj.score+'</b>';
+	           		getTotalScore()
 	           },
 	           error: function(data)
 	           {
@@ -26,6 +45,7 @@ function calculate(value,filename){
   			}
 
   		function createTable(){
+  			getTotalScore();
   			var table = document.getElementById('scoretable');
 
   			for(i=1;i<12;i++){

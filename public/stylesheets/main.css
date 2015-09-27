@@ -17,6 +17,28 @@ body {
 }
 
 
+
+#scorehead{
+  
+  padding-top: 10%;
+  position: relative;
+}
+
+.totalscore{
+  border: 2px solid #FF7052;
+   background: #FF7052;
+  border-radius: 25px;
+  height: 64px;
+  margin-left: 65%;
+  margin-top: 3%;
+  padding: 20px;
+  width: 183px;
+   color: #fff;
+  font-weight: bold;
+  font-family: "Open Sans",sans-serif;
+  font-weight: 200;
+}
+
 .uploadform{
   border: 2px solid #8ac007;
   /*border-radius: 25px;*/

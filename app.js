@@ -47,7 +47,7 @@ mongoose.connect(connectionString);
 mongoose.connection.on('open', function (ref) {
     console.log('Connected to mongo server.');
 
-    /*mongoose.connection.db.dropCollection('studentinfos',function(err,res){
+  /*  mongoose.connection.db.dropCollection('studentinfos',function(err,res){
     	console.log('Collection dropped');
     });
     mongoose.connection.db.dropCollection('questioninfos',function(err,res){

@@ -26,6 +26,24 @@ router.route('/').get(function(req,res){
   	
 });
 
+router.route('/gettotal').post(function(req,res){
+	var sess = req.session;
+	userid=sess.username;
+	db.getTotalScore(userid,function(status,resp){
+		console.log("return:"+status+" ,,, "+resp);
+	    if(status=="error"){
+	    	var data = '{ "res" : "error","score":'+0+'}';
+		    res.contentType('json');
+		    res.json(data);
+	    }else{
+	    	var data = '{ "res" : "sucess","score":'+resp+'}';
+		    res.contentType('json');
+		    res.json(data);
+	    }
+	    	
+	    });
+});
+
 router.route('/evaluate').post(function(req,res){
 	var sess = req.session;
 	userid=sess.username;

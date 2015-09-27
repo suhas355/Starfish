@@ -72,8 +72,28 @@ exports.insertscoreinfo = function(){
 
 }
 
+exports.getMaxScores = function(callback){
+	var data = [];
+	dbschema.questionInfo.find(function(err,qinfo){
+		if(err){
+			console.log('Error finding maxscores');
+			callback("error",data);
+		}else{
+			var len = qinfo.length;
+			for(i=0;i<len;i++){
+				data.push(qinfo[i]['maxscore']);
+			}
+			console.log("sending maxscore list:");
+			callback("success",data);
+		}
+	});
+}
+
 exports.updateTotal = function(userid){
 	var where = {"userid":userid};
+	exports.getMaxScores(function(status,data){
+
+	
 	dbschema.scoreInfo.find(where,function(err,stud){
 		//console.log('Here ' +stud);
 		if(err){
@@ -83,7 +103,7 @@ exports.updateTotal = function(userid){
 			var len = stud.length;
 			var total = 0;
 			for(i=0;i<len;i++){
-				total += stud[i]['score'];
+				total += (stud[i]['score']*data[i]/100.0);
 			}
 			console.log('Total Score: '+ total);
 			dbschema.studentInfo.update(where,{'score':total},{upsert:true},
@@ -99,6 +119,22 @@ exports.updateTotal = function(userid){
 
 		}
 	});
+	});
+}
+
+exports.getTotalScore = function(userid,callback){
+	var where = { "userid":userid };
+	dbschema.studentInfo.findOne(where,function(err,stud){
+	if(err){
+			console.log('Error finding student');
+			callback("error","-1");
+		}else{
+			var sco = stud['score'];
+			console.log('getting total score of student: '+userid +"  total:"+sco);
+			callback("success",sco);
+		}
+	});
+
 }
 
 exports.updateScore = function(userid,qno,score,callback){
