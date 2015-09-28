@@ -1,0 +1,6 @@
+./a.out hotsoursoup 3 eggbiryani 2 plainroti 5 paneer65 2 milkshake 4
+./a.out raitha  2 jeerarice 2 sweetparatha 4 paneer65 2 lassi 4
+./a.out icecream 2 jeerarice 2 alooparatha 4 gobi65 10 milkshake 2
+./a.out raitha 2 jeerarice 2 alooparatha 4 gobi65 3
+./a.out coldplaincurd 5 vegbiryani 1 plainroti 1 chickendry 1 lassi 1
+./a.out raitha 2 hotsoursoup 2 vegbiryani 1 lassi 1 milkshake 1

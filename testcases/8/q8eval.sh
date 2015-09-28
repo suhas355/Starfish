@@ -14,60 +14,63 @@ fi
 
 cd "./uploads/$rollno" >/dev/null 2> /dev/null
 
+chmod +x q8eval.sh 1> /dev/null 2> /dev/null
+
 chmod +x $file 1> /dev/null 2> /dev/null
 
 score=0
 
 ####test case 1####
 
-meta1="t1.meta"
-inp1="t1.inp"
+meta1="./8/t1.meta"
+inp1="./8/t1.inp"
 
 
 
-act=`timeout 3 bash $file $meta1 <$inp1 2> /dev/null`
+act=`timeout 3 bash $file $meta1 <$inp1 ` >/dev/null 2> /dev/null
 res=`echo $act | tr -d ' \t\n\r-'`
-
+p=`echo $act  >>./8/test1`
 
 outfile="t1_${rollno}.db"
 
 if [ -e "$outfile" ]
 then
-	$score=`expr $score + 10`
+	score=`expr $score + 10`
 fi		
 
-if [ "$res" == "A|Ba1|b1" ]
+val=`echo "$res" | egrep "A|Ba1|b1"`
+if [ $? -eq 0 ]
 then
- 	$score=`expr $score + 20`
+ 	score=`expr $score + 20`
 fi
 
 ####test case 2####
 
-meta2="t2.meta"
-inp2="t2.inp"
+meta2="./8/t2.meta"
+inp2="./8/t2.inp"
 
 
 
-act=`timeout 3 bash $file $meta <$inp2 2> /dev/null`
-
+act=`timeout 3 bash $file $meta <$inp2` >/dev/null 2> /dev/null
+p=`echo "here $act"  >>./8/test1`
 val=`echo $act | egrep "deleted successfully"`
 if [ $? -eq 0 ]; then
-	$score=`expr $score + 20`
+	score=`expr $score + 20`
 fi
 
 val=`echo $act | egrep "delete was unsuccessful"`
 if [ $? -eq 0 ]; then
-	$score=`expr $score + 20`
+	score=`expr $score + 20`
 fi
 
 val=`echo $act | egrep "a1"| egrep "b1"`
 if [ $? -ne 0 ]; then
-	$score=`expr $score + 20`
+	score=`expr $score + 20`
 fi
 
 val=`echo $act | egrep "C"| egrep "D"`
 if [ $? -eq 0 ]; then
-	$score=`expr $score + 10`
+	score=`expr $score + 10`
 fi
 
 echo "$score"

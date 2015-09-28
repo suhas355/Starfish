@@ -15,6 +15,14 @@ fi
 
 total=0
 
+hack=`grep -e "0.642" -e "-0.000" <$file | wc -l`
+
+if [ $hack -ne 0 ]
+then 
+	echo "0"
+	exit 0
+fi	
+
 chmod +x $file 1> /dev/null 2> /dev/null
 
 act=(`bash $file | tr -d " \t"`)

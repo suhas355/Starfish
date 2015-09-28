@@ -11,32 +11,32 @@ fi
 chmod +x $file 1> /dev/null 2> /dev/null
 
 total=0
-checktput=`cat "$file" |  egrep "^[^#]*tput"`
+checktput=`cat "$file" |  egrep "tput"`
 if [ $? -eq 0 ]; then
 	total=`expr $total + 25`
 fi
 
-checktput=`cat "$file" |  egrep "^[^#]*clear"`
+checktput=`cat "$file" |  egrep "clear"`
 if [ $? -eq 0 ]; then
 	total=`expr $total + 20`
 fi
 
-checktput=`cat "$file" |  egrep "^[^#]*cup"`
+checktput=`cat "$file" |  egrep "cup"`
 if [ $? -eq 0 ]; then
 	total=`expr $total + 20`
 fi
 
 act=`timeout 2 bash $file 2> /dev/null`
+checktput=`echo "$act" |  egrep "Error: Invalid number of arguments!"`
+if [ $? -eq 0 ]; then
 
-if [ "$act" == "Error: Invalid number of arguments!" ]
-then
 	total=`expr $total + 15`
 fi
 
 act=`timeout 2 bash $file 12312312 2> /dev/null`
+checktput=`echo "$act" |  egrep "Error: Invalid input!"`
+if [ $? -eq 0 ]; then	
 
-if [ "$act" == "Error: Invalid input!" ]
-then
 	total=`expr $total + 20`
 fi
 
