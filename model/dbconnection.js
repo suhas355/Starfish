@@ -72,6 +72,27 @@ exports.insertscoreinfo = function(){
 
 }
 
+exports.getScore = function(userid,callback){
+	var data = [];
+	var where = {"userid":userid};
+	
+	dbschema.scoreInfo.find(where,function(err,scores){
+		if(err){
+			console.log('Error finding scores of '+userid);
+			callback("error",data);
+		}else{
+			var len = scores.length;
+			console.log("total score list len: "+len);
+			for(i=0;i<len;i++){
+				console.log(scores[i]['qno']+" ----"+scores[i]['score']);
+				data.push({ "qno":scores[i]['qno'],"score":scores[i]['score']});
+			}
+			console.log("sending score list of :"+userid);
+			callback("success",data);
+		}
+	});
+}
+
 exports.getMaxScores = function(callback){
 	var data = [];
 	dbschema.questionInfo.find(function(err,qinfo){

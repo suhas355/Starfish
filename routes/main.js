@@ -26,6 +26,23 @@ router.route('/').get(function(req,res){
   	
 });
 
+router.route('/getqscore').post(function(req,res){
+	var sess = req.session;
+	userid=sess.username;
+	db.getScore(userid,function(status,data){
+		if(status=="error"){
+			console.log('Error score has been fetched: '+userid);
+			var data = '{ "res" : "error","score":'+0+'}';
+		    res.contentType('json');
+		    res.json(data);
+		}else{
+			console.log('proper score has been fetched: '+userid);
+			res.contentType('json');
+		    res.json(data);
+		}	
+	});
+});	
+
 router.route('/gettotal').post(function(req,res){
 	var sess = req.session;
 	userid=sess.username;

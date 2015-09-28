@@ -16,6 +16,27 @@ function getTotalScore(){
 	});
 }
 
+function getQuestionScore(){
+	var turl="/main/getqscore";
+	$.ajax({
+		type:"POST",
+		url: turl,
+		success: function(data)
+		{
+			var obj=data;// JSON.parse(data);
+			for(i=0;i<obj.length;i++){
+				document.getElementById('res'+obj[i]['qno']).innerHTML='<b>'+obj[i]['score']+'</b>';
+			}
+			
+
+		},
+		error: function(data)
+		{
+
+		}
+	});
+}
+
 function calculate(value,filename){
   			var content = {
   				"qno":value,
@@ -46,6 +67,7 @@ function calculate(value,filename){
 
   		function createTable(){
   			getTotalScore();
+  			
   			var table = document.getElementById('scoretable');
 
   			for(i=1;i<12;i++){
@@ -207,6 +229,7 @@ function calculate(value,filename){
 				cel25.id = 'res'+i+'b';
 				cel25.innerHTML = '<b>0</b>';
   			}
+  			getQuestionScore();
 
   		}
   		function uploadclick(value){
