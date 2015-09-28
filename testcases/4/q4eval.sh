@@ -8,7 +8,7 @@ src="./4/dir"
 dest="./4/ndir"
 
 ren=`echo "$file" | sed "s/${rollno}_//"`
-
+rm -f $ren >/dev/null 2> /dev/null
 mv "$file" "$ren" 
 
 file="$ren"
