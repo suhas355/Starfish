@@ -26,14 +26,14 @@ fi
 
 #Hack case
 
-res=`cat $file | egrep ".*ls -R.*"`
+res=`cat $file | egrep "\<ls -R.*"`
 
 if [ $? -eq 0 ];then
 	echo "0"
 	exit 0
 fi
 
-res=`cat $file | egrep ".*ls.*"`
+res=`cat $file | egrep "\<ls\>"`
 
 if [ $? -eq 0 ];then
 	echo "0"
@@ -41,7 +41,7 @@ if [ $? -eq 0 ];then
 fi
 
 
-res=`cat $file | egrep ".*find.*"`
+res=`cat $file | egrep "\<find\>"`
 
 if [ $? -eq 0 ];then
 	echo "0"
@@ -53,7 +53,9 @@ score=0
 
 #test 1
 actual=`timeout 2 bash $file ./7/abc 2> /dev/null`
-if [ "$actual" == "Error: Invalid File/Directory!" ];then
+res=`echo $actual | egrep "Error: Invalid File/Directory!" `
+
+if [ $? -eq 0 ];then
 	score=`expr $score + 10`
 fi
 
@@ -61,7 +63,8 @@ src="./7/d1"
 #test2
 chmod 000 $src > /dev/null 2> /dev/null
 actual=`timeout 2  bash $file $src` #2> /dev/null`
-if [ "$actual" == "Warning! No permission" ];then
+res=`echo $actual | egrep "Warning! No permission" `
+if [ $? -eq 0 ];then
 	score=`expr $score + 10`
 fi
 chmod -R 775 $src >/dev/null 2> /dev/null

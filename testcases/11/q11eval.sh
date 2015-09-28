@@ -1,23 +1,29 @@
 #!/bin/bash
 
 
+
 #test case 1
-path="./testcases/11/"
+
 
 troll="201405524"
-actualtar="${path}201405524_Assignment3.tar.gz" #append the path
+actualtar="./201405524_Assignment3.tar.gz" #append the path
 tarpat="Assignment3"
 folderpat="Assign3"
 filepat="sh"
 
 troll1="201405525"
-actualtar1="${path}201405525_Assignment3.tar.gz"
+actualtar1="./201405525_Assignment3.tar.gz"
 filepat2="html"
 filepat3="pdf"
 
 
 file=$1
 rollno=$2
+
+cd "./uploads/$rollno/11" >/dev/null 2> /dev/null
+file=`echo "$file" | rev | cut -d '/' -f1 | rev`
+file="../$file"
+
 isSh=`echo $file | egrep "^.*\.sh$"`
 
 if [ $? -ne 0 ]; then
@@ -36,9 +42,8 @@ error1='Error: Usage: <Rollno> <TarPath> <Tar pattern> <Inside folder pattern> <
 #run the script uploaded for testcase 1
 act=`bash $file $troll $actualtar`
 
-#echo "$act"
-
-if [ "$act" ==  "$error1" ]
+echo "$act" | egrep "$error1" >/dev/null
+if [ $? -eq 0 ]
 then
 total=`expr $total + 10`
 fi
@@ -83,7 +88,7 @@ if [ "$act" == 'Error: Internal file invalid format' ]
 then
  		total=`expr $total + 20`
 fi 
-
+cd - >/dev/null
 
 echo $total
  		
