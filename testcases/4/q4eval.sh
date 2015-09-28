@@ -3,17 +3,26 @@
 
 file=$1
 rollno=$2
-src="./uploads/$rollno/4/dir"
-noperm="./uploads/$rollno/4/noperm"
-dest="./uploads/$rollno/4/ndir"
-isSh=`echo $file | egrep "^.*\.sh$"`
+#src="./uploads/$rollno/4/dir"
+src="./4/dir"
+dest="./4/ndir"
 
+ren=`echo "$file" | sed "s/${rollno}_//"`
+
+mv "$file" "$ren" 
+
+file="$ren"
+file=`echo "$file" | rev | cut -d '/' -f1 | rev`
+
+
+isSh=`echo $file | egrep "^.*\.sh$"`
 if [ $? -ne 0 ]; then
 	#mongo localhost/students --eval "db.scoreinfos.update({userid:\"$rollno\",qno:1},{\$set:{score:0}})"
 	echo "0"
 	exit 0
 fi
 
+cd "./uploads/$rollno" >/dev/null 2> /dev/null
 
 #Hack case
 
@@ -26,7 +35,7 @@ fi
 
 chmod +x $file 1> /dev/null 2> /dev/null
 
-expected="./uploads/$rollno/4/ndir:dir./uploads/$rollno/4/ndir/dir:dir2f1./uploads/$rollno/4/ndir/dir/dir2:f2"
+expected="./4/ndir:dir./4/ndir/dir:dir2f1./4/ndir/dir/dir2:f2"
 
 score=0
 #test 1
@@ -42,19 +51,19 @@ if [ "$actual" == "Error: Invalid number of arguments!" ];then
 fi
 
 #test3
-actual=`bash $file "./uploads/$rollno/4/abs" 2> /dev/null`
+actual=`bash $file "./4/abs" "./4/ndir" 2> /dev/null`
 if [ "$actual" == "Error: Invalid input!" ];then
 	score=`expr $score + 10`
 fi
 
 #test3
-chmod 000 $src > /dev/null 2> /dev/null
-actual=`bash $file $src $dest 2> /dev/null`
+chmod 000 $src #> /dev/null 2> /dev/null
+actual=`bash $file $src $dest` #2> /dev/null`
 if [ "$actual" == "Error: Access denied!" ];then
 	score=`expr $score + 10`
 fi
-chmod 775 $src >/dev/null 2> /dev/null
-
+chmod -R 775 $src >/dev/null 2> /dev/null
+rm -rf ./4/ndir > /dev/null 
 
 #test4
 actual=`bash $file $src $dest 2> /dev/null`
@@ -69,12 +78,11 @@ fi
 actual=`ls -R $dest `
 
 actual=`echo "$actual" |tr -d " \t\n\r"`
-#echo $actual
 #echo $expected
 if [ "$actual" == "$expected" ]; then
 	score=`expr $score + 40`
 fi
-
+cd - > /dev/null 
 echo $score
 
 
