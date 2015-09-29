@@ -4,7 +4,6 @@ file=$1
 rollno=$2
 #src="./uploads/$rollno/4/dir"
 
-
 isSh=`echo $file | egrep "^.*\.sh$"`
 if [ $? -ne 0 ]; then
 	#mongo localhost/students --eval "db.scoreinfos.update({userid:\"$rollno\",qno:1},{\$set:{score:0}})"
