@@ -205,12 +205,12 @@ function calculate(value,filename){
 
 
 				if(i == 10){
-					cel13.innerHTML = '<b>20</b>';
-					cel23.innerHTML = '<b>20</b>';
+					cel13.innerHTML = '<b>5</b>';
+					cel23.innerHTML = '<b>15</b>';
 				}
 				else{
-					cel13.innerHTML = '<b>50</b>';
-					cel23.innerHTML = '<b>50</b>';
+					cel13.innerHTML = '<b>20</b>';
+					cel23.innerHTML = '<b>30</b>';
 				}
 
 				cel14.className = 'status';

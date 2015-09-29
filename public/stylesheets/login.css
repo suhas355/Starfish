@@ -141,6 +141,7 @@ body {
 .letter{
  text-align: center;
   font-size: 70px;
+  padding: 7px;
   font-family: Poiret One;
   color: #8F9296;
 }
@@ -186,7 +187,8 @@ body {
   height: 4%;
   position: absolute;
   top: 3%;
-  right: 28%;
+  right: 34%;
+
 }
 
 .error{
