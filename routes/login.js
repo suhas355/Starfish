@@ -42,13 +42,18 @@ router.route('/process').post(function(req,res){
 		console.log("status in process is: "+status);
 		if(status==true){
 			sess.username = uname;
-			exports.copyFolder(uname);
-			console.log("valid:"+sess.username);
-			var response = {
-			    status  : 200,
-			    success : 'Updated Successfully'
+			if(uname == undefined){
+				console.log("Undefined caught!!");
+				res.status(500).redirect('/login');
+			}else{
+				exports.copyFolder(uname);
+				console.log("valid:"+sess.username);
+				var response = {
+				    status  : 200,
+				    success : 'Updated Successfully'
+				}
+				res.end(JSON.stringify(response));
 			}
-			res.end(JSON.stringify(response));
 					
 
 		}else{

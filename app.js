@@ -147,22 +147,27 @@ app.use('/main',main);
 
 app.use(function(req,res,next){
   var userid=req.session.username;
-  var handler=multer({ dest: './uploads/'+userid+'/',
+  if(userid == undefined){
+    console.log("Undefined caught!!");
+    res.status(500).redirect('/login');
+  }else{
+    var handler=multer({ dest: './uploads/'+userid+'/',
 
-   rename: function (fieldname, filename) {
-    console.log("renaming "+filename + " to " +userid+"_"+filename);
-      return userid+"_"+filename;
+     rename: function (fieldname, filename) {
+      console.log("renaming "+filename + " to " +userid+"_"+filename);
+        return userid+"_"+filename;
+      },
+    onFileUploadStart: function (file) {
+      console.log(file.originalname + ' is starting ...')
     },
-  onFileUploadStart: function (file) {
-    console.log(file.originalname + ' is starting ...')
-  },
-  onFileUploadComplete: function (file) {
-    console.log(file.fieldname + ' uploaded to  ' + file.path)
-    done=true;
-  }
+    onFileUploadComplete: function (file) {
+      console.log(file.fieldname + ' uploaded to  ' + file.path)
+      done=true;
+    }
+    });
+    handler(req,res,next);
+    }
   });
-  handler(req,res,next);
-});
 
 app.get('/',function(req,res){
       res.redirect('/login');
@@ -175,20 +180,25 @@ app.get('/',function(req,res){
 app.post('/upload',function(req,res){
   userid=req.session.username;
   console.log("upload session id: "+ userid);
-  console.log("req data: "+req.body);
-  upload(req,res,function(err){
-      if(err){
-         console.log("no file uploaded");
-         var data = '{ "res" : "error"}';
-         res.contentType('json');
-        res.json(data);
-      }else{
-        console.log("req files:"+req.files);
-       var data = '{ "res" : "sucess"}';
-       res.contentType('json');
-       res.json(data);
-      }
-  });
+  if(userid == undefined){
+    console.log("Undefined caught!!");
+    res.status(500).redirect('/login');
+  }else{
+      console.log("req data: "+req.body);
+      upload(req,res,function(err){
+          if(err){
+             console.log("no file uploaded");
+             var data = '{ "res" : "error"}';
+             res.contentType('json');
+            res.json(data);
+          }else{
+            console.log("req files:"+req.files);
+           var data = '{ "res" : "sucess"}';
+           res.contentType('json');
+           res.json(data);
+          }
+      });
+    }
   
  });
 
