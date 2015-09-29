@@ -29,6 +29,8 @@ router.route('/').get(function(req,res){
 router.route('/getqscore').post(function(req,res){
 	var sess = req.session;
 	userid=sess.username;
+	if(userid == undefined)
+		res.status(500).redirect('/');
 	db.getScore(userid,function(status,data){
 		if(status=="error"){
 			console.log('Error score has been fetched: '+userid);
@@ -46,6 +48,8 @@ router.route('/getqscore').post(function(req,res){
 router.route('/gettotal').post(function(req,res){
 	var sess = req.session;
 	userid=sess.username;
+	if(userid == undefined)
+		res.status(500).redirect('/');
 	db.getTotalScore(userid,function(status,resp){
 		console.log("return:"+status+" ,,, "+resp);
 	    if(status=="error"){
@@ -64,6 +68,8 @@ router.route('/gettotal').post(function(req,res){
 router.route('/evaluate').post(function(req,res){
 	var sess = req.session;
 	userid=sess.username;
+	if(userid == undefined)
+		res.status(500).redirect('/');
 	qno=req.body.qno;
 	fname = req.body.fname;
 	var exec = require('child_process').exec,child;
