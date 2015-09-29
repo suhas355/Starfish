@@ -13,8 +13,9 @@ if [ $? -ne 0 ]; then
 fi
 
 cd "./uploads/$rollno" >/dev/null 2> /dev/null
+file=`echo "$file" | rev | cut -d '/' -f1 | rev`
 
-chmod +x q8eval.sh 1> /dev/null 2> /dev/null
+chmod +x ./8/q8eval.sh 1> /dev/null 2> /dev/null
 
 chmod +x $file 1> /dev/null 2> /dev/null
 
