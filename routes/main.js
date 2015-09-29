@@ -72,18 +72,21 @@ router.route('/evaluate').post(function(req,res){
 	var execpath = path.join(__dirname,'../uploads/'+userid+'/'+qno+'/q'+qno+'eval.sh ' + './uploads/'+userid+'/'+userid+'_'+fname + ' ' + userid);
 	console.log("path is:"+execpath);
 	child = exec(execpath ,
-		{timeout:5000},
+		{timeout:9000},
 	  function (error, stdout, stderr) {
+	  		console.log("STDOUT: "+stdout);
 	  		if(stderr !=null){
 	  			console.log('Std error :: ' + stderr);
 	  		}
     		if (error !== null) {
       			console.log('exec error: ' + error);
-      			var data = '{ "res" : "error","score":"TLE"}';
+      			var data = '{ "res" : "error","score":"WA/TLE"}';
 				res.contentType('json');
 				res.json(data);
     		}else{
-    		
+    			if(isNaN(stdout) || stdout == ''){
+	   				stdout=0;
+	   			}
 	    		db.updateScore(userid,qno,stdout,function(err,resp){
 	    			if(err){
 	    				var data = '{ "res" : "error","score":'+0+'}';
@@ -92,9 +95,7 @@ router.route('/evaluate').post(function(req,res){
 	    			}
 	    		});
 	   			console.log('Score: ' + stdout);
-	   			if(stdout == ''){
-	   				stdout=0;
-	   			}
+	   			
 	    		var data = '{ "res" : "sucess","score":'+stdout+'}';
 			    res.contentType('json');
 			    res.json(data);
