@@ -71,7 +71,7 @@ function calculate(value,filename){
   			var table = document.getElementById('scoretable');
 
   			for(i=1;i<12;i++){
-  				if( i == 10 ) 
+  				if( i == 10  ) 
   				{
   					continue;
   				}
@@ -79,6 +79,9 @@ function calculate(value,filename){
   					var row = table.insertRow(i-1);
   				else
   					var row = table.insertRow(i);
+  				if(i == 2 || i == 9) 
+  					table.rows[i].style.display = 'none';
+  				
 
   				var cel1 = row.insertCell(0);
   				var cel2 = row.insertCell(1);
