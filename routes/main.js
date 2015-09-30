@@ -101,17 +101,21 @@ router.route('/evaluate').post(function(req,res){
 	    			if(isNaN(stdout) || stdout == ''){
 		   				stdout=0;
 		   			}
+		   			done = false;
 		    		db.updateScore(userid,qno,stdout,function(err,resp){
 		    			if(err=='Error'){
+		    				done = true;
 		    				var data = '{ "res" : "error","score":'+0+'}';
 						    res.contentType('json');
 						    res.json(data);
 		    			}
 		    		});
-		   			console.log('Score: ' + stdout);
-		    		var data = '{ "res" : "sucess","score":'+stdout+'}';
-				    res.contentType('json');
-				    res.json(data);
+		    		if(done == false){
+			   			console.log('Score: ' + stdout);
+			    		var data = '{ "res" : "sucess","score":'+stdout+'}';
+					    res.contentType('json');
+					    res.json(data);
+					}
 	    		}
 	    		
 		  });
