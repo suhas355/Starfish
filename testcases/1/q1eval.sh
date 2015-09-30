@@ -1,7 +1,7 @@
 #!/bin/bash
 
-std1='./testcases/1/1.op'
-#std1='./1.op'
+#std1='./testcases/1/1.op'
+std1='./1.op'
 
 file=$1
 rollno=$2
@@ -13,6 +13,9 @@ if [ $? -ne 0 ]; then
 	exit 0
 fi
 
+cd "./uploads/$rollno/1" > /dev/null
+file=`echo "$file" | rev | cut -d '/' -f1 | rev`
+file="../$file"
 #Hack case
 
 res=`cat $file | egrep -e "121" -e "875" -e "539" `
@@ -46,9 +49,10 @@ done
 
 required=${#template[@]}
 #echo "match: $matching  req: $required" 
-score=`echo "scale=0; $matching/$required*100"| bc -l`
+score=`echo "$matching/$required*100"| bc -l`
 #mongo localhost/students --eval "db.scoreinfos.update({userid:\"$rollno\",qno:1},{\$set:{score:\"$score\"}})"
 echo $score
-exit 0
+
+cd - > /dev/null
 
 
