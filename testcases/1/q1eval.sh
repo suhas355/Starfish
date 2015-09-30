@@ -1,7 +1,7 @@
 #!/bin/bash
 
 std1='./testcases/1/1.op'
-
+#std1='./1.op'
 
 file=$1
 rollno=$2
@@ -46,7 +46,7 @@ done
 
 required=${#template[@]}
 #echo "match: $matching  req: $required" 
-score=`echo "scale=2; $matching/$required*100"| bc -l`
+score=`echo "scale=0; $matching/$required*100"| bc -l`
 #mongo localhost/students --eval "db.scoreinfos.update({userid:\"$rollno\",qno:1},{\$set:{score:\"$score\"}})"
 echo $score
 exit 0
