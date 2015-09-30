@@ -165,36 +165,36 @@ exports.updateScore = function(userid,qno,score,callback){
 	if(userid == undefined){
 		console.log("caught undefined, throwing back from dbconnection.js");
 		callback("Error","Update error");
-	}
+	}else{
 
-	dbschema.scoreInfo.findOne(where,function(err,stud){
-		console.log('Here ' +stud);
+		dbschema.scoreInfo.findOne(where,function(err,stud){
+			console.log('Here ' +stud);
 
-		if(err || stud==null){
-			console.log('Error finding student');
-			callback("Error","Find error");
-		}else{
-			var sco = stud['score'];
-			console.log('Cur score ' + score + ' db score ' + sco);
-			if(sco < score){
-				dbschema.scoreInfo.update(where,{"score":score},{upsert:true},
-				function(err,result){
-					if(err){
-						console.log('Error in updating score');
-						callback("Error","Update Error");
-					}
-					else{
-						console.log('Updated score to '+score+ ' of userid ' + userid);
-						exports.updateTotal(userid);
-					}
-				});
+			if(err || stud==null) {
+				console.log('Error finding student');
+				callback("Error","Find error");
 			}else{
-				console.log('Update is not required '+ userid + ' qno: '+ qno + ' score ' + score ) ;
+				var sco = stud['score'];
+				console.log('Cur score ' + score + ' db score ' + sco);
+				if(sco < score){
+					dbschema.scoreInfo.update(where,{"score":score},{upsert:true},
+					function(err,result){
+						if(err){
+							console.log('Error in updating score');
+							callback("Error","Update Error");
+						}
+						else{
+							console.log('Updated score to '+score+ ' of userid ' + userid);
+							exports.updateTotal(userid);
+						}
+					});
+				}else{
+					console.log('Update is not required '+ userid + ' qno: '+ qno + ' score ' + score ) ;
+				}
 			}
-		}
 
-	});
-		
+		});
+	}
 	
 }
 
