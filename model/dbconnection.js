@@ -160,9 +160,17 @@ exports.getTotalScore = function(userid,callback){
 
 exports.updateScore = function(userid,qno,score,callback){
 	var where = {"userid":userid,"qno":qno};
+
+	console.log("update Score userid:" +userid);
+	if(userid == undefined){
+		console.log("caught undefined, throwing back from dbconnection.js");
+		callback("Error","Update error");
+	}
+
 	dbschema.scoreInfo.findOne(where,function(err,stud){
 		console.log('Here ' +stud);
-		if(err){
+
+		if(err || stud==null){
 			console.log('Error finding student');
 			callback("Error","Find error");
 		}else{

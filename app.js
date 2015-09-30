@@ -148,7 +148,7 @@ app.use('/main',main);
 app.use(function(req,res,next){
   var userid=req.session.username;
   if(userid == undefined){
-    console.log("Undefined caught!!");
+    console.log("Undefined caught!! main app.js");
     res.status(500).redirect('/login');
   }else{
     var handler=multer({ dest: './uploads/'+userid+'/',
@@ -181,7 +181,7 @@ app.post('/upload',function(req,res){
   userid=req.session.username;
   console.log("upload session id: "+ userid);
   if(userid == undefined){
-    console.log("Undefined caught!!");
+    console.log("Undefined caught!! app.js upload()");
     res.status(500).redirect('/login');
   }else{
       console.log("req data: "+req.body);

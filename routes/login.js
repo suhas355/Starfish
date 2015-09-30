@@ -43,7 +43,7 @@ router.route('/process').post(function(req,res){
 		if(status==true){
 			sess.username = uname;
 			if(uname == undefined){
-				console.log("Undefined caught!!");
+				console.log("Undefined caught!! process");
 				res.status(500).redirect('/login');
 			}else{
 				exports.copyFolder(uname);

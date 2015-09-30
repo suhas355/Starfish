@@ -30,7 +30,7 @@ router.route('/getqscore').post(function(req,res){
 	var sess = req.session;
 	userid=sess.username;
 	if(userid == undefined){
-		console.log("Undefined caught!!");
+		console.log("Undefined caught!! getqscore");
 		res.status(500).redirect('/login');
 	}else{
 		db.getScore(userid,function(status,data){
@@ -52,7 +52,7 @@ router.route('/gettotal').post(function(req,res){
 	var sess = req.session;
 	userid=sess.username;
 	if(userid == undefined){
-		console.log("Undefined caught!!");
+		console.log("Undefined caught!! gettotal");
 		res.status(500).redirect('/login');
 	}else{
 		db.getTotalScore(userid,function(status,resp){
@@ -75,7 +75,7 @@ router.route('/evaluate').post(function(req,res){
 	var sess = req.session;
 	userid=sess.username;
 	if(userid == undefined){
-		console.log("Undefined caught!!");
+		console.log("Undefined caught!! in evaluate");
 		res.status(500).redirect('/login');
 	}else{
 		qno=req.body.qno;
@@ -106,9 +106,16 @@ router.route('/evaluate').post(function(req,res){
 		    				var data = '{ "res" : "error","score":'+0+'}';
 						    res.contentType('json');
 						    res.json(data);
+		    			}else{
+		    				if(resp.err=='Error'){
+		    					console.log('Caught error in main.js while updating');
+		    					res.status(500).redirect('/login');
+		    				}
 		    			}
 		    		});
 		   			console.log('Score: ' + stdout);
+
+
 		   			
 		    		var data = '{ "res" : "sucess","score":'+stdout+'}';
 				    res.contentType('json');
