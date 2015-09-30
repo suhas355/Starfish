@@ -79,8 +79,8 @@ function calculate(value,filename){
   					var row = table.insertRow(i-1);
   				else
   					var row = table.insertRow(i);
-  				if(i == 2 || i == 9) 
-  					table.rows[i].style.display = 'none';
+  				//if(i == 2 ) 
+  				//	table.rows[i].style.display = 'none';
   				
 
   				var cel1 = row.insertCell(0);
