@@ -3,7 +3,7 @@
 
 file=$1
 rollno=$2
-src="./uploads/$rollno/5/dir"
+src="./dir"
 isSh=`echo $file | egrep "^.*\.sh$"`
 
 if [ $? -ne 0 ]; then
@@ -25,8 +25,10 @@ rm  -rf "./uploads/${rollno}/5/dir" && mkdir "./uploads/${rollno}/5/dir"
 cp -r "$src" "./uploads/${rollno}/5/dir"
 
 ########################
-
-src="./uploads/$rollno/5/dir"
+cd "./uploads/$rollno/5" > /dev/null
+src="./dir"
+file=`echo "$file" | rev | cut -d '/' -f1 | rev`
+file="../$file"
 score=0
 
 #test 1
@@ -55,9 +57,9 @@ if [ "$actual" == "Warning: File klm already exists. Skipping abc." ];then
 	score=`expr $score + 20`
 fi
 
-expected="./uploads/$rollno/5/dir/:abcghijKlIjklm.txtmy_inpsubuvw./uploads/$rollno/5/dir/sub:2ak.cuvw"
+expected="./dir/:abcghijKlIjklm.txtmy_inpsubuvw./dir/sub:2ak.cuvw"
 
-dest="./uploads/$rollno/5/dir/"
+dest="./dir/"
 actual=`ls -R $dest `
 actual=`echo "$actual" |tr -d " \t\n\r"`
 
@@ -66,3 +68,4 @@ if [ "$actual" == "$expected" ]; then
 fi
 
 echo $score
+cd - > /dev/null
