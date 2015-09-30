@@ -102,21 +102,13 @@ router.route('/evaluate').post(function(req,res){
 		   				stdout=0;
 		   			}
 		    		db.updateScore(userid,qno,stdout,function(err,resp){
-		    			if(err){
+		    			if(err=='Error'){
 		    				var data = '{ "res" : "error","score":'+0+'}';
 						    res.contentType('json');
 						    res.json(data);
-		    			}else{
-		    				if(resp.err=='Error'){
-		    					console.log('Caught error in main.js while updating');
-		    					res.status(500).redirect('/login');
-		    				}
 		    			}
 		    		});
 		   			console.log('Score: ' + stdout);
-
-
-		   			
 		    		var data = '{ "res" : "sucess","score":'+stdout+'}';
 				    res.contentType('json');
 				    res.json(data);
