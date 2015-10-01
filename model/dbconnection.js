@@ -75,22 +75,27 @@ exports.insertscoreinfo = function(){
 exports.getScore = function(userid,callback){
 	var data = [];
 	var where = {"userid":userid};
+	if(userid == undefined){
+		console.log("caught undefined, throwing back from dbconnection.js/getScore");
+		callback("Error","Update error");
+	}else{
 	
-	dbschema.scoreInfo.find(where,function(err,scores){
-		if(err){
-			console.log('Error finding scores of '+userid);
-			callback("error",data);
-		}else{
-			var len = scores.length;
-			console.log("total score list len: "+len);
-			for(i=0;i<len;i++){
-				console.log(scores[i]['qno']+" ----"+scores[i]['score']);
-				data.push({ "qno":scores[i]['qno'],"score":scores[i]['score']});
+		dbschema.scoreInfo.find(where,function(err,scores){
+			if(err){
+				console.log('Error finding scores of '+userid);
+				callback("Error",data);
+			}else{
+				var len = scores.length;
+				console.log("total score list len: "+len);
+				for(i=0;i<len;i++){
+					console.log(scores[i]['qno']+" ----"+scores[i]['score']);
+					data.push({ "qno":scores[i]['qno'],"score":scores[i]['score']});
+				}
+				console.log("sending score list of :"+userid);
+				callback("success",data);
 			}
-			console.log("sending score list of :"+userid);
-			callback("success",data);
-		}
-	});
+		});
+	}	
 }
 
 exports.getMaxScores = function(callback){
@@ -98,7 +103,7 @@ exports.getMaxScores = function(callback){
 	dbschema.questionInfo.find(function(err,qinfo){
 		if(err){
 			console.log('Error finding maxscores');
-			callback("error",data);
+			callback("Error",data);
 		}else{
 			var len = qinfo.length;
 			for(i=0;i<len;i++){
@@ -112,49 +117,60 @@ exports.getMaxScores = function(callback){
 
 exports.updateTotal = function(userid){
 	var where = {"userid":userid};
-	exports.getMaxScores(function(status,data){
+	if(userid == undefined){
+		console.log("caught undefined, throwing back from dbconnection.js/updateTotal");
+		callback("Error","Update total error");
+	}else{
 
-	
-	dbschema.scoreInfo.find(where,function(err,stud){
-		//console.log('Here ' +stud);
-		if(err){
-			console.log('Error finding student');
-			callback("Error","Find error");
-		}else{
-			var len = stud.length;
-			var total = 0;
-			for(i=0;i<len;i++){
-				total += (stud[i]['score']*data[i]/100.0);
+		exports.getMaxScores(function(status,data){
+
+		
+		dbschema.scoreInfo.find(where,function(err,stud){
+			//console.log('Here ' +stud);
+			if(err){
+				console.log('Error finding student');
+				callback("Error","Find error");
+			}else{
+				var len = stud.length;
+				var total = 0;
+				for(i=0;i<len;i++){
+					total += (stud[i]['score']*data[i]/100.0);
+				}
+				console.log('Total Score: '+ total);
+				dbschema.studentInfo.update(where,{'score':total},{upsert:true},
+					function(err,res){
+						if(err){
+							console.log('Error in updating total score');
+							
+						}
+						else{
+							console.log('Updated total score to '+total+ ' of userid ' + userid);
+						}
+					});
+
 			}
-			console.log('Total Score: '+ total);
-			dbschema.studentInfo.update(where,{'score':total},{upsert:true},
-				function(err,res){
-					if(err){
-						console.log('Error in updating total score');
-						
-					}
-					else{
-						console.log('Updated total score to '+total+ ' of userid ' + userid);
-					}
-				});
-
-		}
-	});
-	});
+		});
+		});
+	}	
 }
 
 exports.getTotalScore = function(userid,callback){
 	var where = { "userid":userid };
+	if(userid == undefined){
+		console.log("caught undefined, throwing back from dbconnection.js/getTotalScore");
+		callback("Error","get total error");
+	}else{
 	dbschema.studentInfo.findOne(where,function(err,stud){
-	if(err){
-			console.log('Error finding student');
-			callback("error","-1");
-		}else{
-			var sco = stud['score'];
-			console.log('getting total score of student: '+userid +"  total:"+sco);
-			callback("success",sco);
-		}
-	});
+		if(err){
+				console.log('Error finding student');
+				callback("Error","-1");
+			}else{
+				var sco = stud['score'];
+				console.log('getting total score of student: '+userid +"  total:"+sco);
+				callback("success",sco);
+			}
+		});
+	}
 
 }
 
@@ -163,14 +179,14 @@ exports.updateScore = function(userid,qno,score,callback){
 
 	console.log("update Score userid:" +userid);
 	if(userid == undefined){
-		console.log("caught undefined, throwing back from dbconnection.js");
+		console.log("caught undefined, throwing back from dbconnection.js/updateScore");
 		callback("Error","Update error");
 	}else{
 
 		dbschema.scoreInfo.findOne(where,function(err,stud){
 			console.log('Here ' +stud);
 
-			if(err || stud==null) {
+			if(err || stud==null || stud=='' ) {
 				console.log('Error finding student');
 				callback("Error","Find error");
 			}else{

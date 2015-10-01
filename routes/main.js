@@ -34,9 +34,9 @@ router.route('/getqscore').post(function(req,res){
 		res.status(500).redirect('/login');
 	}else{
 		db.getScore(userid,function(status,data){
-			if(status=="error"){
+			if(status=="Error"){
 				console.log('Error score has been fetched: '+userid);
-				var data = '{ "res" : "error","score":'+0+'}';
+				//var data = '{ "res" : "error","score":'+0+'}';
 			    res.contentType('json');
 			    res.json(data);
 			}else{
@@ -57,8 +57,8 @@ router.route('/gettotal').post(function(req,res){
 	}else{
 		db.getTotalScore(userid,function(status,resp){
 			console.log("return:"+status+" ,,, "+resp);
-		    if(status=="error"){
-		    	var data = '{ "res" : "error","score":'+0+'}';
+		    if(status=="Error"){
+		    	//var data = '{ "res" : "error","score":'+0+'}';
 			    res.contentType('json');
 			    res.json(data);
 		    }else{
