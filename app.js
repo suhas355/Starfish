@@ -178,7 +178,7 @@ app.get('/',function(req,res){
 /*Handling routes.*/
 
 app.post('/upload',function(req,res){
-  userid=req.session.username;
+  var userid=req.session.username;
   console.log("upload session id: "+ userid);
   if(userid == undefined){
     console.log("Undefined caught!! app.js upload()");

@@ -11,11 +11,10 @@ var mongoose = require('mongoose');
 
 var router = express.Router();
 
-var userid=undefined;
 
 router.route('/').get(function(req,res){
 	var sess = req.session;
-	userid=sess.username;
+	var userid=sess.username;
 	console.log('Session variable ' + sess.username);
 	if(sess.username){
 		console.log('Success!!');
@@ -28,7 +27,7 @@ router.route('/').get(function(req,res){
 
 router.route('/getqscore').post(function(req,res){
 	var sess = req.session;
-	userid=sess.username;
+	var userid=sess.username;
 	if(userid == undefined){
 		console.log("Undefined caught!! getqscore");
 		res.status(500).redirect('/login');
@@ -50,7 +49,7 @@ router.route('/getqscore').post(function(req,res){
 
 router.route('/gettotal').post(function(req,res){
 	var sess = req.session;
-	userid=sess.username;
+	var userid=sess.username;
 	if(userid == undefined){
 		console.log("Undefined caught!! gettotal");
 		res.status(500).redirect('/login');
@@ -73,7 +72,7 @@ router.route('/gettotal').post(function(req,res){
 
 router.route('/evaluate').post(function(req,res){
 	var sess = req.session;
-	userid=sess.username;
+	var userid=sess.username;
 	if(userid == undefined){
 		console.log("Undefined caught!! in evaluate");
 		res.status(500).redirect('/login');
@@ -122,5 +121,4 @@ router.route('/evaluate').post(function(req,res){
 	}
 });
 
-exports.userid = userid;
 module.exports = router;
