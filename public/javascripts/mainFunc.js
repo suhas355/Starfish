@@ -11,7 +11,7 @@ function getTotalScore(){
 		},
 		error: function(data)
 		{
-
+			alert('error getTotalScore');
 		}
 	});
 }
@@ -32,7 +32,7 @@ function getQuestionScore(){
 		},
 		error: function(data)
 		{
-
+			alert('error getQScore');
 		}
 	});
 }

@@ -56,9 +56,10 @@ exports.insertscoreinfo = function(){
 			var jsonObj = {};
 			jsonObj['userid']=data[0];
 			jsonObj['qno'] = data[1];
+			jsonObj['score'] = data[2];
 			//jsonObj['question']=data[2];
 			
-			console.log(data[0] + " " + data[1]);// + " " + data[2]);
+			console.log(data[0] + " " + data[1]+" "+data[2]);
 			var score = new dbschema.scoreInfo(jsonObj);
 			score.save(function(err){
 				if(err){
@@ -127,6 +128,7 @@ exports.updateTotal = function(userid){
 		
 		dbschema.scoreInfo.find(where,function(err,stud){
 			//console.log('Here ' +stud);
+			
 			if(err){
 				console.log('Error finding student');
 				callback("Error","Find error");
@@ -134,6 +136,7 @@ exports.updateTotal = function(userid){
 				var len = stud.length;
 				var total = 0;
 				for(i=0;i<len;i++){
+					console.log(stud[i]['score']+" " +data[i]+" " +i +" "+stud[i]['question']);
 					total += (stud[i]['score']*data[i]/100.0);
 				}
 				console.log('Total Score: '+ total);
